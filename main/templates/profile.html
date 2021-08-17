@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    {% include 'header.html' %}
+    {% block content %}
+        {% load static %}
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+        </head>
+        <body>
+        <div class="slogan container container--90">
+            <div class="slogan--item">
+                <h1>
+                    <li>Nazwa użytkownika: {{ user.first_name }} {{ user.last_name }}</li>
+                    <li>Email: {{ user.email }}</li>
+                </h1>
+                <h1>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for donation in donations %}
+                            <ul>
+                                <div>
+                                    <li>DONATION</li>
+                                    <li>Donation institution: {{ donation.institution }}</li>
+                                    <li>Donation categories: {{ donation.institution.categories.name }}</li>
+                                    <li>Donation quantity: {{ donation.quantity }}</li>
+                                    <li>Donation pick up date: {{ donation.pick_up_date }}</li>
+                                    <li>Was the bag taken?
+                                        <form action="{% url 'archive' donation.id %}">
+                                            <input type="submit" value="Archive"/>
+                                        </form>
+                                    </li>
+                                    <li>Is it taken? : {{ donation.is_taken }}</li>
+                                </div>
+                            </ul>
+                        {% endfor %}
+                    </form>
+                </h1>
+            </div>
+
+
+        </div>
+        </body>
+    {% endblock %}
+</html>
